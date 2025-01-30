@@ -54,20 +54,6 @@ function resolveAnyRefs(current, root, parentReferences) {
                 return resolveObject(resolved, root, parentReferences);
             }
 
-            // Resolve oneOf with only one entry
-            if (key === "oneOf" && Array.isArray(obj["oneOf"]) && obj["oneOf"].length === 1) {
-                const { oneOf, ...remainingProperties } = obj;
-                const theOne = oneOf[0];
-                // Ignore cases where oneOf is not an object
-                if (Object.prototype.toString.call(theOne) !== "[object Object]") {
-                    Console.log("x");
-                    continue;
-                }
-                const merged = { ...remainingProperties, ...theOne };
-                // console.log("merged oneOf", merged);
-                return resolveObject(merged, root, parentReferences);
-            }
-
             // Remove properties that starts with @xsd - these are fragments from XML Schema Definitions
             if (key.startsWith('@xsd')) {
                 delete obj[key];
